@@ -6,24 +6,9 @@ This repository contains the implementation of the Outfit Transformer, inspired 
 
 > Rohan Sarkar et al. [Outfit Transformer: Outfit Representations for Fashion Recommendation](https://arxiv.org/abs/2204.04812). CVPR 2023.
 
-Our implementation not only faithfully reproduces the method presented in the paper but also introduces several enhancements to improve performance. These improvements elevate the model to a state-of-the-art (SoTA) level, achieving superior results in fashion recommendation tasks.
+Our implementation includes improvements by incorporating 'Style' and 'Event'.
 
 <div align="center"> <img src = https://github.com/owj0421/outfit-transformer/assets/98876272/fc39d1c7-b076-495d-8213-3b98ef038b64 width = 512> </div>
-
-## Performance
-
-<div align="center">
-
-|Model|CP(AUC)|FITB(Accuracy)|CIR(Recall@10)|
-|:-:|:-:|:-:|:-:|
-|Type-Aware|0.86|57.83|3.50|
-|SCE-Net|0.91|59.07|5.10|
-|CSA-Net|0.91|63.73|8.27|
-|OutfitTransformer(Paper)|<u>0.93</u>|**67.10**|9.58|
-|**Implemented <br> (Original)**|0.92|?|No Dataset|
-|**Implemented <br> (w/ CLIP Backbone)**|**0.94 <br> (SOTA)**|<u>65.92</u>|No Dataset|
-
-</div>
 
 ## Settings
 
@@ -78,73 +63,37 @@ python -m src.run.2_train_complementary \
 python -m src.run.2-1_test_complemenatry \
 --checkpoint $PATH/TO/LOAD/MODEL/.PT/FILE
 ```
-
 <br>
 
 ## New Method: Adding Style and Event to Embeddings
 
 We have introduced a new method to add style and event information to the embeddings. This involves extracting ResNet embeddings for images and then training classifiers to predict style and event labels. The embeddings are then transformed using these classifiers.
 
+### Step 0: Download Fashion4Event dataset
+That is existing in: https://drive.google.com/drive/folders/1bgXykJSwWICoZeB8Kx79wnchDxrRbXp7
+
+### Step 1: Tag the Style
+python -m src.StyleKobi
+
 ### Step 1: Extract Image Embeddings
 Run the notebook to extract ResNet embeddings for the images:
+
+
+### Step 2: Train Style and Event Classifiers
+Run the notebook to extract ResNet embeddings for the images and train classifiers for style and event prediction using the extracted embeddings.
+At the end of the notebook, two JSON files will be saved—one for style and one for event.
 ```
 jupyter notebook /home/nogaschw/outfit-transformer-main/Fashion Rec -Style and Event/CreateBasicClassifiers.ipynb
 ```
 
-### Step 2: Train Style and Event Classifiers
-Train classifiers for style and event prediction using the extracted embeddings.
-
 ### Step 3: Save Transformed Embeddings
-Save the transformed embeddings to JSON files:
+Create a new embedding file by concatenating the original embeddings with the output from the JSON file.
 ```
 python /home/nogaschw/outfit-transformer-main/create_emb.ipynb
 ```
-
-## Demo
-
-Follow the steps below to run the demo for each task:
-
-**Compatibility Prediction**
-
-1. Run demo
-    ```
-    python -m src.run.5_demo \
-    --task cp \
-    --model_type clip \
-    --checkpoint $PATH/OF/MODEL/.PT/FILE
-    ```
-
 <br>
 
-**Complementary Item Retrieval**
-
-1. Build Database
-    ```
-    python -m run.3_build_db \
-    --polyvore_dir $PATH/TO/LOAD/POLYVORE \
-    --db_dir $PATH/TO/SAVE/ITEM/METADATA
-    ```
-1. Generate Item Embeddings
-    ```
-    python -m src.run.3_generate_embeddings \
-    --model_type clip \
-    --batch_sz 64 \
-    --checkpoint $PATH/OF/MODEL/.PT/FILE
-    ```
-2. Build Faiss Index.
-    ```
-    python -m src.run.4_build_index
-    ```
-3. Run Demo
-    ```
-    python -m src.run.5_demo \
-    --task cir \
-    --model_type clip \
-    --checkpoint $PATH/OF/MODEL/.PT/FILE
-    ```
-
-## Note
-This is **NON-OFFICIAL** implementation. (The official repo has not been released.)
-
-## License
-This code is licensed under the MIT License.
+*The original code is taken from*
+```
+https://github.com/owj0421/outfit-transformer
+```
