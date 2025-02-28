@@ -8,8 +8,6 @@ This repository contains the implementation of the Outfit Transformer, inspired 
 
 Our implementation includes improvements by incorporating 'Style' and 'Event'.
 
-<div align="center"> <img src = https://github.com/owj0421/outfit-transformer/assets/98876272/fc39d1c7-b076-495d-8213-3b98ef038b64 width = 512> </div>
-
 ## Settings
 
 ### Environment Setting
@@ -73,11 +71,9 @@ We have introduced a new method to add style and event information to the embedd
 That is existing in: https://drive.google.com/drive/folders/1bgXykJSwWICoZeB8Kx79wnchDxrRbXp7
 
 ### Step 1: Tag the Style
+```
 python -m src.StyleKobi
-
-### Step 1: Extract Image Embeddings
-Run the notebook to extract ResNet embeddings for the images:
-
+```
 
 ### Step 2: Train Style and Event Classifiers
 Run the notebook to extract ResNet embeddings for the images and train classifiers for style and event prediction using the extracted embeddings.
@@ -92,6 +88,8 @@ Create a new embedding file by concatenating the original embeddings with the ou
 python /home/nogaschw/outfit-transformer-main/create_emb.ipynb
 ```
 <br>
+
+In addition, we have a folder for generating the dataset as described in the paper.
 
 *The original code is taken from*
 ```
