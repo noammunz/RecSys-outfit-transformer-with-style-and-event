@@ -6,7 +6,7 @@ This repository contains the implementation of the Outfit Transformer, inspired 
 
 > Rohan Sarkar et al. [Outfit Transformer: Outfit Representations for Fashion Recommendation](https://arxiv.org/abs/2204.04812). CVPR 2023.
 
-Our implementation includes improvements by incorporating 'Style' and 'Event'.
+Our implementation includes improvements by incorporating 'Style' and 'Event' features.
 
 ## Settings
 
